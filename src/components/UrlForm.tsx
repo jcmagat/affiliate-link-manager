@@ -22,7 +22,7 @@ export default function UrlForm() {
       await respose.json();
       setUrl("");
     } catch (error) {
-      console.log("Error shortening url: ", error);
+      console.error("Error shortening url: ", error);
     } finally {
     }
   };

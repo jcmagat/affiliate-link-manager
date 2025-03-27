@@ -1,5 +1,5 @@
 {
-  "id": "c75e1cc8-170e-4508-a4ed-40cedde4052c",
+  "id": "50b7a2d7-a792-4b6c-9245-95a6ab296fc3",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -23,15 +23,15 @@
         },
         "short_code": {
           "name": "short_code",
-          "type": "varchar(256)",
+          "type": "varchar(8)",
           "primaryKey": false,
           "notNull": true
         },
         "created_at": {
           "name": "created_at",
-          "type": "date",
+          "type": "timestamp with time zone",
           "primaryKey": false,
-          "notNull": true,
+          "notNull": false,
           "default": "now()"
         },
         "visits": {
