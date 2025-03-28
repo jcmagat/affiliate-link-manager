@@ -33,7 +33,7 @@ export default function UrlList() {
             <Link
               className="text-blue-500"
               target="_blank"
-              href={url.originalUrl}
+              href={`/${url.shortCode}`}
             >
               {`${process.env.NEXT_PUBLIC_BASE_URL}/${url.shortCode}`}
             </Link>
