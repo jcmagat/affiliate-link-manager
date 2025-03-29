@@ -15,7 +15,7 @@ export default async function RedirectPage({ params }: RedirectPageProps) {
     .from(url)
     .where(eq(url.shortCode, shortcode));
 
-  if (!shortenedUrl) {
+  if (shortenedUrl.length < 1) {
     return <div>404 - URL not found</div>;
   }
 

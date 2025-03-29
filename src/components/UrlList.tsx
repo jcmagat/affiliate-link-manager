@@ -5,11 +5,15 @@ import { InferSelectModel } from "drizzle-orm";
 import { url } from "@/db/schema";
 import Link from "next/link";
 import { Button } from "./ui/button";
-import { CopyIcon, EyeIcon } from "lucide-react";
+import { Check, CopyIcon, EyeIcon } from "lucide-react";
 
 export default function UrlList() {
   type UrlType = InferSelectModel<typeof url>;
+
   const [urls, setUrls] = useState<UrlType[]>([]);
+
+  const [copied, setCopied] = useState(false);
+  const [copiedUrl, setCopiedUrl] = useState("");
 
   const fetchUrls = async () => {
     try {
@@ -24,6 +28,21 @@ export default function UrlList() {
     fetchUrls();
   }, []);
 
+  const concatShortUrl = (shortCode: string) => {
+    return `${process.env.NEXT_PUBLIC_BASE_URL}/${shortCode}`;
+  };
+
+  const handleCopyUrl = (shortCode: string) => {
+    const fullUrl = concatShortUrl(shortCode);
+    navigator.clipboard.writeText(fullUrl).then(() => {
+      setCopied(true);
+      setCopiedUrl(shortCode);
+      setTimeout(() => {
+        setCopied(false);
+      }, 3000);
+    });
+  };
+
   return (
     <div>
       <h2 className="text-2xl font-bold mb-2">Recent URLs</h2>
@@ -35,7 +54,7 @@ export default function UrlList() {
               target="_blank"
               href={`/${url.shortCode}`}
             >
-              {`${process.env.NEXT_PUBLIC_BASE_URL}/${url.shortCode}`}
+              {concatShortUrl(url.shortCode)}
             </Link>
 
             <div className="flex items-center gap-3">
@@ -43,8 +62,13 @@ export default function UrlList() {
                 className="text-muted-foreground hover:bg-muted"
                 variant="ghost"
                 size="icon"
+                onClick={() => handleCopyUrl(url.shortCode)}
               >
-                <CopyIcon className="w-4 h-4" />
+                {copied && copiedUrl == url.shortCode ? (
+                  <Check className="w-4 h-4" />
+                ) : (
+                  <CopyIcon className="w-4 h-4" />
+                )}
                 <span className="sr-only">Copy URL</span>
               </Button>
 
